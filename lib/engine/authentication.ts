@@ -64,6 +64,7 @@ export function checkAuthentication(email: NormalizedEmail): Finding[] {
         "The sending server is not authorized to send mail for this domain according to its SPF record. This is a strong indicator of a spoofed sender address.",
       evidence: receivedSpfLines[0] ?? authResultsLines[0],
       weight: spf === "fail" ? 25 : 12,
+      code: "auth.spf_fail",
     });
   } else if (spf === "pass") {
     findings.push({
@@ -84,6 +85,7 @@ export function checkAuthentication(email: NormalizedEmail): Finding[] {
         "The message's DKIM signature failed verification, meaning its content or headers may have been altered in transit, or the signature is invalid/spoofed.",
       evidence: authResultsLines[0],
       weight: 22,
+      code: "auth.dkim_fail",
     });
   } else if (dkim === "pass") {
     findings.push({
@@ -104,6 +106,7 @@ export function checkAuthentication(email: NormalizedEmail): Finding[] {
         "The message fails the domain's DMARC policy, meaning it did not properly align with SPF or DKIM for the From domain. Legitimate senders almost never fail DMARC.",
       evidence: authResultsLines[0],
       weight: 30,
+      code: "auth.dmarc_fail",
     });
   } else if (dmarc === "pass") {
     findings.push({

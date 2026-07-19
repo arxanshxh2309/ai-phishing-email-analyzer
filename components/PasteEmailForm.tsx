@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { ScanSearch } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -14,14 +13,16 @@ Authentication-Results: ...
 <email body>`;
 
 export function PasteEmailForm({
+  value,
+  onChange,
   onSubmit,
   disabled,
 }: {
+  value: string;
+  onChange: (value: string) => void;
   onSubmit: (raw: string) => void;
   disabled?: boolean;
 }) {
-  const [value, setValue] = useState("");
-
   return (
     <form
       onSubmit={(e) => {
@@ -32,7 +33,7 @@ export function PasteEmailForm({
     >
       <textarea
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={PLACEHOLDER}
         spellCheck={false}
         className="min-h-[240px] w-full resize-y rounded-lg border bg-background p-3 font-mono text-xs leading-relaxed outline-none ring-offset-background placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"

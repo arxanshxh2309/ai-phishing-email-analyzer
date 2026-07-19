@@ -15,6 +15,8 @@ export interface Finding {
   detail: string;
   evidence?: string;
   weight: number;
+  /** Stable machine ID, e.g. "auth.dmarc_fail" — used to look up a MITRE ATT&CK tag. Optional. */
+  code?: string;
 }
 
 export type RiskTier = "safe" | "suspicious" | "dangerous";
@@ -32,12 +34,19 @@ export interface ExtractedLink {
   flags: string[];
 }
 
+export interface PreviewData {
+  html: string;
+  blockedImages: number;
+  truncated: boolean;
+}
+
 export interface ScanResult {
   score: number;
   tier: RiskTier;
   findings: Finding[];
   categoryScores: CategoryScore[];
   links: ExtractedLink[];
+  preview: PreviewData | null;
   summary: {
     from: string | null;
     fromName: string | null;

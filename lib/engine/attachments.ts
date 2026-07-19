@@ -46,6 +46,7 @@ export function checkAttachments(email: NormalizedEmail): Finding[] {
         "This message includes an attachment with a file type commonly used to deliver malware (executables, scripts, or disk images). Do not open this attachment unless you are certain of its origin.",
       evidence: dangerous.join(", "),
       weight: 30,
+      code: "attachment.dangerous_ext",
     });
   }
 
@@ -58,6 +59,7 @@ export function checkAttachments(email: NormalizedEmail): Finding[] {
         "One or more attachments use a double extension (e.g. \"invoice.pdf.exe\") to make a dangerous file appear to be a harmless document at a glance.",
       evidence: doubleExt.join(", "),
       weight: 25,
+      code: "attachment.double_extension",
     });
   }
 
@@ -70,6 +72,7 @@ export function checkAttachments(email: NormalizedEmail): Finding[] {
         "This message includes a macro-enabled Office file (e.g. .docm, .xlsm). Macro documents are a common malware delivery method — only enable macros if you fully trust the sender.",
       evidence: macros.join(", "),
       weight: 18,
+      code: "attachment.macro",
     });
   }
 

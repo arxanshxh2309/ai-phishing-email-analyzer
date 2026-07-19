@@ -87,6 +87,7 @@ export function analyzeContent(email: NormalizedEmail): Finding[] {
         "The message asks the recipient to confirm, verify, or re-enter credentials, payment details, or asks for a wire transfer / gift cards — common phishing and fraud requests.",
       evidence: credential.example ?? undefined,
       weight: credential.count >= 2 ? 20 : 10,
+      code: "content.credential_harvest",
     });
   }
 
@@ -99,6 +100,7 @@ export function analyzeContent(email: NormalizedEmail): Finding[] {
         "The message references sensitive data such as SSNs, bank account numbers, or one-time passcodes. Legitimate organizations rarely request this information over email.",
       evidence: sensitive.example ?? undefined,
       weight: 18,
+      code: "content.sensitive_info_request",
     });
   }
 

@@ -116,6 +116,7 @@ export function analyzeLinks(email: NormalizedEmail): { findings: Finding[]; lin
         "One or more links point directly to a numeric IP address rather than a domain name. Legitimate organizations almost never link directly to bare IPs; this is a common way to bypass domain-based reputation checks.",
       evidence: ipLinks[0].href,
       weight: 20,
+      code: "link.ip_literal",
     });
   }
 
@@ -129,6 +130,7 @@ export function analyzeLinks(email: NormalizedEmail): { findings: Finding[]; lin
         "A link domain contains punycode (xn--) encoding, which is frequently used to display characters that visually mimic a trusted brand's domain (a homograph attack).",
       evidence: punycodeLinks[0].href,
       weight: 28,
+      code: "link.punycode",
     });
   }
 
@@ -142,6 +144,7 @@ export function analyzeLinks(email: NormalizedEmail): { findings: Finding[]; lin
         "One or more links use a URL-shortening service, which hides the true destination until clicked. This is not inherently malicious but is frequently used to disguise phishing links.",
       evidence: shortenerLinks[0].href,
       weight: 12,
+      code: "link.shortener",
     });
   }
 
@@ -169,6 +172,7 @@ export function analyzeLinks(email: NormalizedEmail): { findings: Finding[]; lin
       detail: `A link's subdomain contains "${brand}", making it look official (e.g. "${brand.toLowerCase()}.something.example.com"), but the actual registrable domain is unrelated to ${brand}.`,
       evidence: brandSubdomainLinks[0].href,
       weight: 24,
+      code: "link.brand_in_subdomain",
     });
   }
 
@@ -182,6 +186,7 @@ export function analyzeLinks(email: NormalizedEmail): { findings: Finding[]; lin
         "One or more links display one domain as clickable text but actually point to a completely different domain — a classic phishing disguise technique.",
       evidence: `Shown: "${mismatchLinks[0].text}" → Actual: ${mismatchLinks[0].href}`,
       weight: 22,
+      code: "link.anchor_mismatch",
     });
   }
 

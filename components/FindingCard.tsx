@@ -1,6 +1,7 @@
 import { AlertTriangle, Info, ShieldAlert } from "lucide-react";
 import type { Finding } from "@/lib/engine/types";
 import { SEVERITY_META } from "@/lib/tier";
+import { MITRE_TECHNIQUES } from "@/lib/engine/mitreMapping";
 import { Badge } from "@/components/ui/badge";
 
 function SeverityIcon({ severity }: { severity: Finding["severity"] }) {
@@ -12,6 +13,7 @@ function SeverityIcon({ severity }: { severity: Finding["severity"] }) {
 export function FindingCard({ finding }: { finding: Finding }) {
   const meta = SEVERITY_META[finding.severity];
   const isInfo = finding.severity === "info";
+  const technique = finding.code ? MITRE_TECHNIQUES[finding.code] : undefined;
 
   return (
     <div
@@ -34,6 +36,17 @@ export function FindingCard({ finding }: { finding: Finding }) {
         <code className="mt-2 block break-all rounded bg-muted px-2 py-1 text-xs text-muted-foreground">
           {finding.evidence}
         </code>
+      )}
+      {technique && (
+        <a
+          href={`https://attack.mitre.org/techniques/${technique.id.replace(".", "/")}/`}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`MITRE ATT&CK: ${technique.name}`}
+          className="mt-2 inline-block rounded border px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground hover:text-foreground"
+        >
+          {technique.id}
+        </a>
       )}
     </div>
   );

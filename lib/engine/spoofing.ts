@@ -21,6 +21,7 @@ export function checkSpoofing(email: NormalizedEmail): Finding[] {
       detail: `Replies to this message will go to "${replyToDomain}", which is different from the sender's domain "${fromDomain}". This is a common tactic to redirect victim replies to an attacker-controlled mailbox while the visible From address looks legitimate.`,
       evidence: `From: ${email.fromAddress}  Reply-To: ${email.replyToAddress}`,
       weight: 15,
+      code: "spoof.reply_to_mismatch",
     });
   }
 
@@ -38,6 +39,7 @@ export function checkSpoofing(email: NormalizedEmail): Finding[] {
             detail: `The sender's display name references "${brand.name}", but the actual email domain "${fromDomain}" does not belong to ${brand.name}. Attackers set a trusted-looking display name while sending from an unrelated address.`,
             evidence: `"${email.fromName}" <${email.fromAddress}>`,
             weight: 22,
+            code: "spoof.display_name_impersonation",
           });
         }
         break;
@@ -59,6 +61,7 @@ export function checkSpoofing(email: NormalizedEmail): Finding[] {
             detail: `The sender domain "${fromDomain}" is suspiciously similar to the legitimate domain "${brandDomain}" (used by ${brand.name}). This is a classic typosquatting / lookalike-domain phishing technique.`,
             evidence: fromDomain,
             weight: 30,
+            code: "spoof.lookalike_domain",
           });
           break;
         }

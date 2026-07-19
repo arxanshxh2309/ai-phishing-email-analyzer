@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -39,6 +40,7 @@ export default function RootLayout({
             <TooltipProvider>
               <Navbar />
               <main className="flex-1">{children}</main>
+              <Footer />
             </TooltipProvider>
           </MotionProvider>
         </ThemeProvider>

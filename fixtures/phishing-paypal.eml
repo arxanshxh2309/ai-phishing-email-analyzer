@@ -1,0 +1,38 @@
+Delivered-To: victim@example.com
+Received: from mail-relay.suspicious-host.ru (unknown [203.0.113.55])
+	by mx.example.com with SMTP id abc123
+	for <victim@example.com>; Sun, 19 Jul 2026 10:15:00 +0000
+Authentication-Results: mx.example.com; spf=fail smtp.mailfrom=paypa1-secure.com; dkim=fail; dmarc=fail
+Received-SPF: fail (mx.example.com: domain of paypa1-secure.com does not designate 203.0.113.55 as permitted sender)
+From: "PayPal Security Team" <service@paypa1-secure.com>
+Reply-To: paypal-support@mail-recovery-help.tk
+To: victim@example.com
+Subject: Urgent: Your account will be suspended within 24 hours
+Date: Sun, 19 Jul 2026 10:14:58 +0000
+Message-ID: <a1b2c3d4@paypa1-secure.com>
+Content-Type: multipart/mixed; boundary="BOUNDARY1"
+MIME-Version: 1.0
+
+--BOUNDARY1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+<html>
+<body>
+<p>Dear Customer,</p>
+<p>We have detected suspicious activity on your account. Your account will be suspended within 24 hours unless you verify your account immediately.</p>
+<p>Please <a href="http://xn--pypal-4ve.com/verify-account/login.php">click here to verify your account</a> now to avoid permanent closure.</p>
+<p>You may also visit <a href="http://192.168.44.21/secure/login">this secure link</a> if the above does not work.</p>
+<p>Failure to respond within 24 hours will result in permanent suspension.</p>
+<p>PayPal Security Team</p>
+</body>
+</html>
+
+--BOUNDARY1
+Content-Type: application/octet-stream; name="Account_Verification_Form.pdf.exe"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="Account_Verification_Form.pdf.exe"
+
+VGhpcyBpcyBub3QgYSByZWFsIGV4ZWN1dGFibGUsIGp1c3QgdGVzdCBjb250ZW50Lg==
+
+--BOUNDARY1--

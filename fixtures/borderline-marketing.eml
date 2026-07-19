@@ -1,0 +1,24 @@
+Delivered-To: shopper@example.com
+Received: from mail129.suremail.example.net (mail129.suremail.example.net [198.51.100.9])
+	by mx.example.com with ESMTPS id ghi789
+	for <shopper@example.com>; Sun, 19 Jul 2026 08:00:00 +0000
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=bounce.acmeshop.com; dkim=pass header.d=acmeshop.com; dmarc=pass header.from=acmeshop.com
+Received-SPF: pass (mx.example.com: domain of bounce.acmeshop.com designates 198.51.100.9 as permitted sender)
+From: "Acme Shop Deals" <deals@acmeshop.com>
+Reply-To: deals@acmeshop.com
+To: shopper@example.com
+Subject: Act now: Flash sale ends tonight!
+Date: Sun, 19 Jul 2026 08:00:00 +0000
+Message-ID: <campaign-55321@acmeshop.com>
+Content-Type: text/html; charset="UTF-8"
+MIME-Version: 1.0
+
+<html>
+<body>
+<p>Hi there,</p>
+<p>Our biggest flash sale of the year ends tonight! Act now and save 40% storewide.</p>
+<p><a href="https://acmeshop.com/sale/summer-2026">Shop the sale</a></p>
+<p>Thanks for being a loyal Acme Shop customer.</p>
+<p>Unsubscribe: <a href="https://acmeshop.com/unsubscribe?id=9981">click here</a></p>
+</body>
+</html>

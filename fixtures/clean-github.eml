@@ -1,0 +1,24 @@
+Delivered-To: dev@example.com
+Received: from smtp.github.com (smtp.github.com [140.82.112.22])
+	by mx.example.com with ESMTPS id def456
+	for <dev@example.com>; Sun, 19 Jul 2026 09:00:00 +0000
+Authentication-Results: mx.example.com; spf=pass smtp.mailfrom=notifications@github.com; dkim=pass header.d=github.com; dmarc=pass header.from=github.com
+Received-SPF: pass (mx.example.com: domain of github.com designates 140.82.112.22 as permitted sender)
+From: "GitHub" <notifications@github.com>
+Reply-To: notifications@github.com
+To: dev@example.com
+Subject: [octocat/hello-world] New comment on your pull request
+Date: Sun, 19 Jul 2026 09:00:00 +0000
+Message-ID: <pr-comment-9988@github.com>
+Content-Type: text/html; charset="UTF-8"
+MIME-Version: 1.0
+
+<html>
+<body>
+<p>Hi devuser,</p>
+<p>alice-dev commented on your pull request #42 in octocat/hello-world:</p>
+<blockquote>Looks good to me, thanks for the fix!</blockquote>
+<p><a href="https://github.com/octocat/hello-world/pull/42#issuecomment-1234567">View it on GitHub</a></p>
+<p>You are receiving this because you authored the thread.</p>
+</body>
+</html>

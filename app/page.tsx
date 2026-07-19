@@ -13,6 +13,7 @@ import { EmailPreview } from "@/components/EmailPreview";
 import { ExportButton } from "@/components/export/ExportButton";
 import { CommandPalette } from "@/components/CommandPalette";
 import { ComparePanel } from "@/components/ComparePanel";
+import { GmailTab } from "@/components/GmailTab";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorState } from "@/components/ErrorState";
 import { ScanSkeleton } from "@/components/ScanSkeleton";
@@ -21,7 +22,7 @@ import { SAMPLE_EMAILS } from "@/lib/samples";
 import { useEmailScan } from "@/lib/useEmailScan";
 import type { ScanResult } from "@/lib/engine/types";
 
-type MainTab = "paste" | "upload" | "compare";
+type MainTab = "paste" | "upload" | "compare" | "gmail";
 
 export default function Home() {
   const { result, loading, error, analyzePaste, analyzeFile } = useEmailScan();
@@ -67,10 +68,11 @@ export default function Home() {
 
       <FadeIn delay={0.05}>
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as MainTab)} className="mb-8">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="paste">Paste email</TabsTrigger>
             <TabsTrigger value="upload">Upload .eml</TabsTrigger>
             <TabsTrigger value="compare">Compare</TabsTrigger>
+            <TabsTrigger value="gmail">Gmail</TabsTrigger>
           </TabsList>
           <TabsContent value="paste" className="pt-4">
             <PasteEmailForm value={pasteValue} onChange={setPasteValue} onSubmit={analyzePaste} disabled={loading} />
@@ -81,10 +83,13 @@ export default function Home() {
           <TabsContent value="compare" className="pt-4">
             <ComparePanel />
           </TabsContent>
+          <TabsContent value="gmail" className="pt-4">
+            <GmailTab />
+          </TabsContent>
         </Tabs>
       </FadeIn>
 
-      {activeTab !== "compare" && (
+      {activeTab !== "compare" && activeTab !== "gmail" && (
         <div>
           {loading && <ScanSkeleton />}
           {!loading && error && <ErrorState message={error} />}

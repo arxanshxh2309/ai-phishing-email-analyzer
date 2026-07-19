@@ -15,7 +15,7 @@ export async function runEngine(source: string | Buffer): Promise<ScanResult> {
   const email = await parseEmailSource(source);
 
   const { findings: linkFindings, links } = analyzeLinks(email);
-  const preview = email.html ? sanitizeEmailHtml(email.html) : null;
+  const contentFindings = analyzeContent(email);
 
   const fromDomain = extractEmailDomain(email.fromAddress);
   const linkDomains = links
@@ -23,11 +23,18 @@ export async function runEngine(source: string | Buffer): Promise<ScanResult> {
     .filter((d): d is string => Boolean(d));
   const domainAgeFindings = await analyzeDomainAge(fromDomain, linkDomains).catch(() => []);
 
+  const preview = email.html
+    ? sanitizeEmailHtml(email.html, {
+        flaggedLinks: links,
+        contentFindings: contentFindings.filter((f) => f.weight > 0),
+      })
+    : null;
+
   const findings = [
     ...checkAuthentication(email),
     ...checkSpoofing(email),
     ...linkFindings,
-    ...analyzeContent(email),
+    ...contentFindings,
     ...checkAttachments(email),
     ...checkHeaderAnomalies(email),
     ...domainAgeFindings,

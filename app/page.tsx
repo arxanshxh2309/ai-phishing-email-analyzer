@@ -12,58 +12,31 @@ import { LinkInspector } from "@/components/LinkInspector";
 import { EmailPreview } from "@/components/EmailPreview";
 import { ExportButton } from "@/components/export/ExportButton";
 import { CommandPalette } from "@/components/CommandPalette";
+import { ComparePanel } from "@/components/ComparePanel";
 import { EmptyState } from "@/components/EmptyState";
 import { ErrorState } from "@/components/ErrorState";
 import { ScanSkeleton } from "@/components/ScanSkeleton";
 import { FadeIn } from "@/components/motion/FadeIn";
 import { SAMPLE_EMAILS } from "@/lib/samples";
+import { useEmailScan } from "@/lib/useEmailScan";
 import type { ScanResult } from "@/lib/engine/types";
 
+type MainTab = "paste" | "upload" | "compare";
+
 export default function Home() {
-  const [result, setResult] = useState<ScanResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"paste" | "upload">("paste");
+  const { result, loading, error, analyzePaste, analyzeFile } = useEmailScan();
+  const [activeTab, setActiveTab] = useState<MainTab>("paste");
   const [pasteValue, setPasteValue] = useState("");
-
-  async function runAnalysis(body: BodyInit, headers?: HeadersInit) {
-    setLoading(true);
-    setError(null);
-    setResult(null);
-    try {
-      const res = await fetch("/api/analyze", { method: "POST", body, headers });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error ?? "Something went wrong.");
-        return;
-      }
-      setResult(data as ScanResult);
-    } catch {
-      setError("Network error — please try again.");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  function handlePaste(raw: string) {
-    runAnalysis(JSON.stringify({ raw }), { "Content-Type": "application/json" });
-  }
-
-  function handleFile(file: File) {
-    const formData = new FormData();
-    formData.append("file", file);
-    runAnalysis(formData);
-  }
 
   function handleLoadSample(raw: string) {
     setActiveTab("paste");
     setPasteValue(raw);
-    handlePaste(raw);
+    analyzePaste(raw);
   }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <CommandPalette onSwitchTab={setActiveTab} onLoadSample={handleLoadSample} />
+      <CommandPalette onSwitchTab={(tab) => setActiveTab(tab)} onLoadSample={handleLoadSample} />
 
       <FadeIn>
         <div className="mb-8 text-center">
@@ -93,26 +66,32 @@ export default function Home() {
       </FadeIn>
 
       <FadeIn delay={0.05}>
-        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as "paste" | "upload")} className="mb-8">
-          <TabsList className="grid w-full grid-cols-2">
+        <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as MainTab)} className="mb-8">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="paste">Paste email</TabsTrigger>
             <TabsTrigger value="upload">Upload .eml</TabsTrigger>
+            <TabsTrigger value="compare">Compare</TabsTrigger>
           </TabsList>
           <TabsContent value="paste" className="pt-4">
-            <PasteEmailForm value={pasteValue} onChange={setPasteValue} onSubmit={handlePaste} disabled={loading} />
+            <PasteEmailForm value={pasteValue} onChange={setPasteValue} onSubmit={analyzePaste} disabled={loading} />
           </TabsContent>
           <TabsContent value="upload" className="pt-4">
-            <UploadDropzone onFile={handleFile} disabled={loading} />
+            <UploadDropzone onFile={analyzeFile} disabled={loading} />
+          </TabsContent>
+          <TabsContent value="compare" className="pt-4">
+            <ComparePanel />
           </TabsContent>
         </Tabs>
       </FadeIn>
 
-      <div>
-        {loading && <ScanSkeleton />}
-        {!loading && error && <ErrorState message={error} />}
-        {!loading && !error && !result && <EmptyState />}
-        {!loading && !error && result && <ScanResultView result={result} />}
-      </div>
+      {activeTab !== "compare" && (
+        <div>
+          {loading && <ScanSkeleton />}
+          {!loading && error && <ErrorState message={error} />}
+          {!loading && !error && !result && <EmptyState />}
+          {!loading && !error && result && <ScanResultView result={result} />}
+        </div>
+      )}
     </div>
   );
 }

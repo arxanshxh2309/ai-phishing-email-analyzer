@@ -40,6 +40,16 @@ export function EmailPreview({ preview }: { preview: PreviewData }) {
         srcDoc={srcDoc}
         className="h-[420px] w-full rounded-lg border bg-white"
       />
+      <div className="flex flex-wrap items-center gap-3 text-[11px] text-muted-foreground">
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "rgba(208, 59, 59, 0.5)" }} />
+          Critical / high finding highlighted in place
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ background: "rgba(250, 178, 25, 0.5)" }} />
+          Medium finding highlighted in place
+        </span>
+      </div>
       {preview.truncated && (
         <p className="text-xs text-muted-foreground">Preview truncated — the original message body is unusually large.</p>
       )}
